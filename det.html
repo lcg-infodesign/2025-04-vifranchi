@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Volcano details</title>
+
+  <!-- p5 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+
+  <style>
+    body {
+      background: #1B2632;
+      font-family: "Helvetica", sans-serif;
+      color: #1B2632;
+      margin-top: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 10rem;
+      text-transform: uppercase;
+      color: #C9C1B1;
+    }
+
+    #container {
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      padding: 150px 20px 20px 20px;
+      border: 2px solid #C9C1B1;
+      background: #C9C1B1;
+      width: 100%;           
+      max-width: none;       
+      min-height: 250px; 
+      font-size: 1.1rem;
+      text-align: center;
+      line-height: 1.6;
+      color: #1B2632;
+
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(3px);
+    }
+
+    a {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-block;
+  padding: 10px 18px;
+  font-size: 1rem;
+  color: #C9C1B1;
+  background: #2C3B4D;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+    a:hover {
+      background: #212c3a;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1 id="title">Loading…</h1>
+
+  <div id="container">
+    Loading volcano data...
+  </div>
+
+
+  <a href="index.html">← Back to map</a>
+
+  <script>
+    let volcanoData;
+
+    function preload() {
+      volcanoData = loadTable(
+        "volcanoes.csv",
+        "csv",
+        "header"
+      );
+    }
+
+    function setup() {
+      noCanvas();
+
+      const url = new URL(window.location.href);
+      const name = url.searchParams.get("name");
+
+      if (!name) {
+        document.getElementById("title").innerText = "No volcano selected";
+        return;
+      }
+
+      let match = null;
+      for (let r = 0; r < volcanoData.getRowCount(); r++) {
+        let row = volcanoData.getRow(r);
+        if (row.get("Volcano Name") === name) {
+          match = row;
+          break;
+        }
+      }
+
+      if (!match) {
+        document.getElementById("title").innerText = "Volcano not found";
+        return;
+      }
+
+      document.getElementById("title").innerText = match.get("Volcano Name");
+
+      const html = `
+        <b>Type:</b> ${match.get("Type")}<br>
+        <b>Elevation:</b> ${match.get("Elevation (m)")} m<br>
+        <b>Location:</b> ${match.get("Latitude")}, ${match.get("Longitude")}<br>
+      `;
+
+      document.getElementById("container").innerHTML = html;
+    }
+  </script>
+</body>
+</html>
