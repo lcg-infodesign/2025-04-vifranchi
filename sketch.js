@@ -229,7 +229,7 @@ function drawTooltip(volcano) {
   if (tx + tw > width - 8) tx = volcano.x - tw - 12;
   if (ty < 8) ty = volcano.y + 12;
 
-  fill(" #C9C1B1");
+  fill("#C9C1B1");
   stroke("#1B2632");
   rect(tx, ty, tw, th, 6);
 
