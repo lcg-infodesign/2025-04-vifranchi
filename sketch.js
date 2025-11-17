@@ -21,6 +21,7 @@ function preload() {
   );
 }
 
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textFont("Helvetica");
@@ -34,12 +35,15 @@ function setup() {
   createDropdown();
 }
 
+
+
 function draw() {
   background("#EEE9DF");
 
   drawTitle();
   drawLegendBox();
 
+  //misure e posizione mappa
   let mapMargin = 20;
   let mapY = 130;
   let maxMapW = width - 2 * mapMargin;
@@ -69,6 +73,7 @@ function draw() {
   drawVolcanoes(mapX, mapY, mapW, mapH);
 }
 
+//funzione di info ad hover
 function mousePressed() {
   if (hoveredVolcano) {
     let name = hoveredVolcano.name;
